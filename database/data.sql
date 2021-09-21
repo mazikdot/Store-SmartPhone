@@ -168,6 +168,11 @@ CREATE TABLE money_today(
 INSERT INTO phone_status(status_name) VALUES('ปกติ'),
 ('เสีย'),
 ('ส่งซ่อม');
+CREATE TABLE notes(
+  note_id int(10) PRIMARY KEY AUTO_INCREMENT NOT NULL,
+  note_name varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
+  note_timp timestamp NOT NULL
+)CHARACTER SET utf8 COLLATE utf8_general_ci;
 ALTER TABLE `admin`
   ADD PRIMARY KEY (`id`);
 

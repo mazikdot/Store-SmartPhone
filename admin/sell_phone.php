@@ -47,7 +47,7 @@ $query4->execute();
 
 $msg="ขายโทรศัพท์เรียบร้อยแล้ว";
 if ($query) {
-    echo "<script>alert ('อัพเดตข้อมูลโทรศัพท์ เรียบร้อยแล้ว')</script>";
+    echo "<script>alert ('ขายโทรศัพท์ เรียบร้อยแล้ว')</script>";
     echo "<script>window.location.href='dashboard.php'</script>";
 } else {
     echo "<script>alert('ไม่สามารถอัพเดตข้อมูลนี้ได้')</script>";

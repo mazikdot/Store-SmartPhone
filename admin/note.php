@@ -99,29 +99,29 @@ if (strlen($_SESSION['alogin']) == 0) {
 
             <div class="row">
                 <div class="col s12">
-                    <div class="page-title">รุ่น Smart Phone ทั้งหมด</div>
+                    <div class="page-title">Note</div>
                 </div>
 
                 <div class="col s12 m12 l12">
                     <div class="card">
                         <div class="card-content">
-                            <span class="card-title">Smart Phone
+                            <span class="card-title">จดรายละเอียดอื่น ๆ
                                 <br>
-                                <a href="add_brand.php"><i class="material-icons">done</i>เพิ่มยี่ห้อโทรศัพท์เข้าสู่ระบบ</a>
-                                <a style="color:#dd3d36;"><br>หมายเหตุ : ก่อนลบยี่ห้อโทรศัพท์โปรดตรวจเช็คให้ดีก่อนว่าภายในระบบไม่ได้มีข้อมูลยี่ห้อรุ่นนั้นแล้ว มิฉะนั้นไม่สามารถลบข้อมูลยี่ห้อโทรศัพท์ได้</a>
+                                <a href="add-note.php"><i class="material-icons">done</i>เพิ่ม Node คลิ๊กตรงนี้</a>
                             </span>
                             <?php if ($msg) { ?><div class=" succWrap"><strong>SUCCESS</strong> : <?php echo htmlentities($msg); ?>
                                 </div><?php } ?>
                             <table id="example" class="display responsive-table ">
                                 <thead>
                                     <tr>
-                                        <th>รุ่นโทรศัพท์มือถือ</th>
+                                        <th>Note</th>
+                                        <th>เวลาและวันที่ - Note</th>
                                         <th style="width:180px;">แก้ไข/ลบ</th>
                                     </tr>
                                 </thead>
 
                                 <tbody>
-                                    <?php $sql = "SELECT * FROM status_phone";
+                                    <?php $sql = "SELECT * FROM notes";
                                     $query = $dbh->prepare($sql);
                                     $query->execute();
                                     $results = $query->fetchAll(PDO::FETCH_OBJ);
@@ -129,13 +129,14 @@ if (strlen($_SESSION['alogin']) == 0) {
                                     if ($query->rowCount() > 0) {
                                         foreach ($results as $result) {               ?>
                                             <tr>
-                                                <td> <?php echo htmlentities($result->echo_name); ?></td>
+                                                <td> <?php echo htmlentities($result->note_name); ?></td>
+                                                <td> <?php echo htmlentities($result->note_timp); ?></td>
                                                 </td>
 
-                                                <td><a href="edit-brand.php?echo_id=<?php echo htmlentities($result->echo_id); ?>"><i class="material-icons">mode_edit</i></a>
+                                                <td><a href="edit-note.php?note_id=<?php echo htmlentities($result->note_id); ?>"><i class="material-icons">mode_edit</i></a>
 
 
-                                                    <a href="delete-brand.php?echo_id=<?php echo htmlentities($result->echo_id); ?>" onclick="return confirm('คุณต้องการที่จะลบข้อมูลโทรศัพท์เครื่องนี้ใช่หรือไม่ ?');""><i class=" material-icons" title="Active">delete</i>
+                                                    <a href="delete-note.php?note_id=<?php echo htmlentities($result->note_id); ?>" onclick="return confirm('คุณต้องการที่จะลบข้อมูลโทรศัพท์เครื่องนี้ใช่หรือไม่ ?');""><i class=" material-icons" title="Active">delete</i>
 
                                                 </td>
                                             </tr>

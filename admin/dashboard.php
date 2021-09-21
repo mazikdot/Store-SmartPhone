@@ -101,10 +101,11 @@ if (strlen($_SESSION['alogin']) == 0) {
                     <div class="card stats-card">
                         <div class="card-content">
 
-                            <span class="card-title">รายได้ทั้งหมด</span>
+                            <span class="card-title">มูลค่าโทรศัพท์ในระบบ</span>
                             <span class="stats-counter">
                                 <?php
-                                $sql = "SELECT SUM(total_phone_name) as total FROM total_phone;";
+                                $sql = "SELECT (sum_teacher) as 'total' FROM (
+                                    SELECT sum(phone_price*phone_amount) as sum_teacher FROM tbphone ) sum_tea;";
                                 $query = $dbh->prepare($sql);
                                 $query->execute();
                                 $results = $query->fetchAll(PDO::FETCH_ASSOC);
@@ -208,7 +209,7 @@ INNER JOIN status_phone as c ON c.echo_id = a.echo_id;";
                                                     if ($stats == "ปกติ" && $mode > 0) {
                                                     ?>
                                                         <a class="waves-effect waves-green btn-flat m-b-xs"><?php echo "{$result->status_name}" ?></a>
-                                                    <?php } else if ($stats == 'เสีย' || $stats =='ส่งซ่อม' && $mode != 0) { ?>
+                                                    <?php } else if ($stats == 'เสีย' || $stats == 'ส่งซ่อม' && $mode != 0) { ?>
                                                         <a class="waves-effect waves-red btn-flat m-b-xs"><?php echo "{$result->status_name}" ?></a>
                                                     <?php } ?>
                                                     <?php

@@ -6,17 +6,36 @@ if (strlen($_SESSION['alogin']) == 0) {
     header('location:index.php');
 } else {
     if (isset($_POST['add'])) {
-        $echo_name = $_POST['echo_name'];
-        $sql = "INSERT INTO status_phone(echo_name) VALUES(:echo_name)";
+        $sell_name = $_POST['sell_name'];
+        $sell_price = $_POST['sell_price'];
+        $echo_id = $_POST['echo_id'];
+        $sell_who = $_POST['sell_who'];
+        $sell_amount = $_POST['sell_amount'];
+
+        $sql = "INSERT INTO sell_phone(sell_name,sell_price,sell_amount,echo_id,sell_who) VALUES(:sell_name,:sell_price,:sell_amount,:echo_id,:sell_who)";
         $query = $dbh->prepare($sql);
-        $query->bindParam(':echo_name', $echo_name, PDO::PARAM_STR);
+        $query->bindParam(':sell_name', $sell_name, PDO::PARAM_STR);
+        $query->bindParam(':sell_price', $sell_price, PDO::PARAM_STR);
+        $query->bindParam(':echo_id', $echo_id, PDO::PARAM_STR);
+        $query->bindParam(':sell_who', $sell_who, PDO::PARAM_STR);
+        $query->bindParam(':sell_amount', $sell_amount, PDO::PARAM_STR);
+
+        $sql3 = "INSERT INTO money_today(money_today_name,amount_today) VALUES(:sell_price,:sell_amount);";
+        $query3 = $dbh->prepare($sql3);
+        $query3->bindParam(':sell_price', $sell_price, PDO::PARAM_STR);
+        $query3->bindParam(':sell_amount', $sell_amount, PDO::PARAM_STR);
+        $query3->execute();
+
+        $sql4 = "INSERT INTO phone_today(phone_today_name) VALUES(:sell_amount);";
+        $query4 = $dbh->prepare($sql4);
+        $query4->bindParam(':sell_amount', $sell_amount, PDO::PARAM_STR);
+        $query4->execute();
         $query->execute();
-        if ($query) {
-            echo "<script>alert('เพิ่มข้อมูลเรียบร้อยแล้ว')</script>";
-            echo "<script>window.location.href='add-smart-phone.php'</script>";
+        $lastInsertId = $dbh->lastInsertId();
+        if ($lastInsertId) {
+            $msg = "คุณได้ทำการขายโทรศัพท์มือถือเรียบร้อยแล้ว";
         } else {
-            echo "<script>alert('ไม่สามารถลบข้อมูลนี้ได้')</script>";
-            echo "<script>window.location.href='add-smart-phone.php'</script>";
+            $error = "Something went wrong. Please try again";
         }
     }
 
@@ -91,22 +110,25 @@ if (strlen($_SESSION['alogin']) == 0) {
         <main class="mn-inner">
             <div class="row">
                 <div class="col s12">
-                    <div class="page-title">Add Brand</div>
+                    <div class="page-title">กรอกข้อมูล</div>
                 </div>
                 <div class="col s12 m12 l12">
                     <div class="card">
                         <div class="card-content">
                             <form id="example-form" method="post" name="addemp">
                                 <div>
-                                    <h3>เพิ่มยี่ห้อ</h3>
+                                    <h3>ขายโทรศัพท์</h3>
                                     <section>
                                         <div class="wizard-content">
                                             <div class="row">
                                                 <div class="col m6">
                                                     <div class="row">
+                                                        <?php if ($error) { ?><div class="errorWrap"><strong>ERROR</strong>:<?php echo htmlentities($error); ?> </div><?php } else if ($msg) { ?><div class="succWrap"><strong>SUCCESS</strong>:<?php echo htmlentities($msg); ?> </div><?php } ?>
+
+
                                                         <div class="input-field col  s12">
-                                                            <label for="echo_name">ยี่ห้อที่ต้องการเพิ่ม</font></label>
-                                                            <input name="echo_name" id="echo_name" onBlur="checkAvailabilityEmpid()" type="text" autocomplete="off" required>
+                                                            <label for="sell_name">ข้อมูลสินค้า</font></label>
+                                                            <input name="sell_name" id="sell_name" onBlur="checkAvailabilityEmpid()" type="text" autocomplete="off" required>
                                                             <span id="empid-availability" style="font-size:12px;"></span>
                                                         </div>
                                                     </div>
@@ -114,6 +136,37 @@ if (strlen($_SESSION['alogin']) == 0) {
 
                                                 <div class="col m6">
                                                     <div class="row">
+
+                                                        <div class="input-field col m6 s12">
+                                                            <select name="echo_id" autocomplete="off">
+                                                                <option value="">ยี่ห้อโทรศัพท์มือถือ</option>
+                                                                <?php $sql = "SELECT echo_id,echo_name from status_phone";
+                                                                $query = $dbh->prepare($sql);
+                                                                $query->execute();
+                                                                $results = $query->fetchAll(PDO::FETCH_OBJ);
+                                                                $cnt = 1;
+                                                                if ($query->rowCount() > 0) {
+                                                                    foreach ($results as $result) {   ?>
+                                                                        <option value="<?php echo htmlentities($result->echo_id); ?>"><?php echo htmlentities($result->echo_name); ?></option>
+                                                                <?php }
+                                                                } ?>
+                                                            </select>
+                                                        </div>
+
+                                                        <div class="input-field col m12 s12">
+                                                            <label for="sell_amount">จำนวน</label>
+                                                            <input id="sell_amount" name="sell_amount" type="text" autocomplete="off" required>
+                                                        </div>
+
+                                                        <div class="input-field col m12 s12">
+                                                            <label for="sell_price">ราคาต่อเครื่อง</label>
+                                                            <input id="sell_price" name="sell_price" type="text" autocomplete="off" required>
+                                                        </div>
+                                                        <div class="input-field col m12 s12">
+                                                            <label for="sell_who">ข้อมูลผู้ซื้อ</label>
+                                                            <input id="sell_who" name="sell_who" type="text" autocomplete="off">
+                                                        </div>
+
                                                         <div class="input-field col s12">
                                                             <button type="submit" name="add" id="add" class="waves-effect waves-light btn indigo m-b-xs">ADD</button>
 

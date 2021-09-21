@@ -152,7 +152,7 @@ $msg="คุณได้ทำการเปลี่ยนรหัสผ่�
 
         <aside id="slide-out" class="side-nav white fixed">
             <div class="side-nav-wrapper">
-                <ul class="sidebar-menu collapsible collapsible-accordion" data-collapsible="accordion" style="">
+                <ul class="sidebar-menu collapsible collapsible-accordion" data-collapsible="accordion">
                     <div class="center">
                         <img src="assets/images/logo-2.jpg" class="circle" alt="">
                     </div><br>

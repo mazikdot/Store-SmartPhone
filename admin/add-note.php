@@ -6,17 +6,17 @@ if (strlen($_SESSION['alogin']) == 0) {
     header('location:index.php');
 } else {
     if (isset($_POST['add'])) {
-        $echo_name = $_POST['echo_name'];
-        $sql = "INSERT INTO status_phone(echo_name) VALUES(:echo_name)";
+        $note_name = $_POST['note_name'];
+        $sql = "INSERT INTO notes(note_name) VALUES(:note_name)";
         $query = $dbh->prepare($sql);
-        $query->bindParam(':echo_name', $echo_name, PDO::PARAM_STR);
+        $query->bindParam(':note_name', $note_name, PDO::PARAM_STR);
         $query->execute();
         if ($query) {
-            echo "<script>alert('เพิ่มข้อมูลเรียบร้อยแล้ว')</script>";
-            echo "<script>window.location.href='add-smart-phone.php'</script>";
+            echo "<script>alert('เพิ่มรายการ Note เรียบร้อยแล้ว')</script>";
+            echo "<script>window.location.href='note.php'</script>";
         } else {
             echo "<script>alert('ไม่สามารถลบข้อมูลนี้ได้')</script>";
-            echo "<script>window.location.href='add-smart-phone.php'</script>";
+            echo "<script>window.location.href='note.php'</script>";
         }
     }
 
@@ -91,22 +91,22 @@ if (strlen($_SESSION['alogin']) == 0) {
         <main class="mn-inner">
             <div class="row">
                 <div class="col s12">
-                    <div class="page-title">Add Brand</div>
+                    <div class="page-title">Add Note</div>
                 </div>
                 <div class="col s12 m12 l12">
                     <div class="card">
                         <div class="card-content">
                             <form id="example-form" method="post" name="addemp">
                                 <div>
-                                    <h3>เพิ่มยี่ห้อ</h3>
+                                    <h3>Note</h3>
                                     <section>
                                         <div class="wizard-content">
                                             <div class="row">
-                                                <div class="col m6">
+                                                <div class="col m12">
                                                     <div class="row">
                                                         <div class="input-field col  s12">
-                                                            <label for="echo_name">ยี่ห้อที่ต้องการเพิ่ม</font></label>
-                                                            <input name="echo_name" id="echo_name" onBlur="checkAvailabilityEmpid()" type="text" autocomplete="off" required>
+                                                            <label for="note_name">สามารถที่จะ Note อะไรก็ได้</font></label>
+                                                            <input name="note_name" id="note_name" onBlur="checkAvailabilityEmpid()" type="text" autocomplete="off" required>
                                                             <span id="empid-availability" style="font-size:12px;"></span>
                                                         </div>
                                                     </div>

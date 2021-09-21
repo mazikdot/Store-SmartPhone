@@ -12,11 +12,13 @@
                 </div>
             
                 <ul class="sidebar-menu collapsible collapsible-accordion" data-collapsible="accordion">
-                    <li class="no-padding"><a class="waves-effect waves-grey" href="dashboard.php"><i class="material-icons">settings_input_svideo</i>หน้าหลัก</a></li>
+                    <li class="no-padding"><a class="waves-effect waves-grey" href="dashboard.php"><i class="material-icons">settings_input_svideo</i>คลังสินค้า</a></li>
                     <li class="no-padding"><a class="waves-effect waves-grey" href="add_phone.php"><i class="material-icons">settings_input_svideo</i>เพิ่มข้อมูลโทรศัพท์มือถือ</a></li>
                     <li class="no-padding"><a class="waves-effect waves-grey" href="list-sell.php"><i class="material-icons">settings_input_svideo</i>รายการขาย</a></li>
                     <li class="no-padding"><a class="waves-effect waves-grey" href="manage-list.php"><i class="material-icons">settings_input_svideo</i>จัดการยอดขาย</a></li>
                     <li class="no-padding"><a class="waves-effect waves-grey" href="add-smart-phone.php"><i class="material-icons">settings_input_svideo</i>จัดการรุ่นของโทรศัพท์</a></li>
+                    <li class="no-padding"><a class="waves-effect waves-grey" href="sell_phone2.php"><i class="material-icons">settings_input_svideo</i>ขายด่วน</a></li>
+                    <li class="no-padding"><a class="waves-effect waves-grey" href="note.php"><i class="material-icons">settings_input_svideo</i>จดบันทึก-Note</a></li>
                     <!-- <li class="no-padding"><a class="waves-effect waves-grey" href="add-status-phone.php"><i class="material-icons">settings_input_svideo</i>จัดการสถานะของโทรศัพท์</a></li> -->
                     <!-- <li class="no-padding">
                         <a class="collapsible-header waves-effect waves-grey"><i class="material-icons">apps</i>แผนกงาน<i class="nav-drop-icon material-icons">keyboard_arrow_right</i></a>

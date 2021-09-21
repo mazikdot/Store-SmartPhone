@@ -5,33 +5,24 @@ include('includes/config.php');
 if (strlen($_SESSION['alogin']) == 0) {
     header('location:index.php');
 } else {
-    $sell_id = ($_GET['sell_id']);
-    $date_add = ($_GET['date_add']);
+
     if (isset($_POST['update'])) {
-
-        $sell_name = $_POST['sell_name'];
-        $sell_amount = $_POST['sell_amount'];
-        $sell_price = $_POST['sell_price'];
-        $echo_id = $_POST['echo_id'];
-        $sell_who = $_POST['sell_who'];
-        $sql = "update sell_phone set sell_name=:sell_name,sell_amount=:sell_amount,sell_price=:sell_price,echo_id=:echo_id,sell_who=:sell_who  where sell_id=:sell_id";
+        $note_id = ($_GET['note_id']);
+        $note_name = $_POST['note_name'];
+        $sql = "update notes set note_name=:note_name  where note_id=:note_id";
         $query = $dbh->prepare($sql);
-        $query->bindParam(':sell_name', $sell_name, PDO::PARAM_STR);
-        $query->bindParam(':sell_amount', $sell_amount, PDO::PARAM_STR);
-        $query->bindParam(':sell_price', $sell_price, PDO::PARAM_STR);
-        $query->bindParam(':echo_id', $echo_id, PDO::PARAM_STR);
-        $query->bindParam(':sell_who', $sell_who, PDO::PARAM_STR);
-        $query->bindParam(':sell_id', $sell_id, PDO::PARAM_STR);
-        $query->execute();
-        // $sql = "update money_today SET money_today_name=:money_today_name,amount_today =: amount_today WHERE time_add = sell_date;";
+        $query->bindParam(':note_name', $note_name, PDO::PARAM_STR);
+        $query->bindParam(':note_id', $note_id, PDO::PARAM_STR);
 
-        $msg = "อัพเดตข้อมูลโทรศัพท์เรียบร้อยแล้ว";
+        $query->execute();
+
+        $msg = "อัพเดตรายการขายเรียบร้อยแล้ว";
         if ($query) {
             echo "<script>alert ('อัพเดตข้อมูลโทรศัพท์ เรียบร้อยแล้ว')</script>";
-            echo "<script>window.location.href='list-sell.php'</script>";
+            echo "<script>window.location.href='note.php'</script>";
         } else {
             echo "<script>alert('ไม่สามารถอัพเดตข้อมูลนี้ได้')</script>";
-            echo "<script>window.location.href='list-sell.php'</script>";
+            echo "<script>window.location.href='note.php'</script>";
         }
     }
 
@@ -104,76 +95,43 @@ if (strlen($_SESSION['alogin']) == 0) {
         <main class="mn-inner">
             <div class="row">
                 <div class="col s12">
-                    <div class="page-title">รายการขาย</div>
+                    <div class="page-title">แก้ไขรายการขาย</div>
                 </div>
                 <div class="col s12 m12 l12">
                     <div class="card">
                         <div class="card-content">
                             <form id="example-form" method="post" name="updatemp">
                                 <div>
-                                    <h3>แก้ไขรายการขาย</h3>
+                                    <h3>แก้ไข Note</h3>
                                     <?php if ($error) { ?><div class="errorWrap"><strong>ERROR</strong>:<?php echo htmlentities($error); ?> </div><?php } else if ($msg) { ?><div class="succWrap"><strong>SUCCESS</strong> : <?php echo htmlentities($msg); ?> </div><?php } ?>
                                     <section>
                                         <div class="wizard-content">
                                             <div class="row">
-                                                <div class="col m6">
+                                                <div class="col m12">
                                                     <div class="row">
                                                         <?php
-                                                        $eid = intval($_GET['sell_id']);
-                                                        $sql = "SELECT * from  sell_phone where sell_id=:sell_id";
+                                                        $eid = intval($_GET['note_id']);
+                                                        $sql = "SELECT * from  notes WHERE note_id=:note_id";
                                                         $query = $dbh->prepare($sql);
-                                                        $query->bindParam(':sell_id', $eid, PDO::PARAM_STR);
+                                                        $query->bindParam(':note_id', $eid, PDO::PARAM_STR);
                                                         $query->execute();
                                                         $results = $query->fetchAll(PDO::FETCH_OBJ);
                                                         $cnt = 1;
                                                         if ($query->rowCount() > 0) {
                                                             foreach ($results as $result) {               ?>
                                                                 <div class="input-field col  s12">
-                                                                    <label for="sell_name">โทรศัพท์มือถือ</label>
-                                                                    <input name="sell_name" id="sell_name" value="<?php echo htmlentities($result->sell_name); ?>" type="text" autocomplete="off" required>
+                                                                    <label for="note_name">แก้ไขรุ่นโทรศัพท์มือถือ</label>
+                                                                    <input name="note_name" id="note_name" value="<?php echo htmlentities($result->note_name); ?>" type="text" autocomplete="off" required>
                                                                     <span id="empid-availability" style="font-size:12px;"></span>
                                                                 </div>
 
 
-                                                                <div class="input-field col m6 s12">
-                                                                    <label for="sell_amount">จำนวน</label>
-                                                                    <input id="sell_amount" name="sell_amount" value="<?php echo htmlentities($result->sell_amount); ?>" type="text" required>
-                                                                </div>
 
-                                                                <div class="input-field col m6 s12">
-                                                                    <label for="sell_price">ราคา</label>
-                                                                    <input id="sell_price" name="sell_price" value="<?php echo htmlentities($result->sell_price); ?>" type="text" autocomplete="off" required>
-                                                                </div>
                                                     </div>
                                                 </div>
 
                                                 <div class="col m6">
                                                     <div class="row">
-
-
-                                                        <div class="input-field col m6 s12">
-                                                            <select name="echo_id" autocomplete="off">
-                                                                <?php $sql = "SELECT * from status_phone";
-                                                                $query = $dbh->prepare($sql);
-                                                                $query->execute();
-                                                                $results = $query->fetchAll(PDO::FETCH_OBJ);
-                                                                if ($query->rowCount() > 0) {
-                                                                    foreach ($results as $resultt) {
-                                                                        $selected = ($resultt->echo_id == $result->echo_id) ? "selected" : "";
-                                                                        echo "<option value = '{$resultt->echo_id}' {$selected}>{$resultt->echo_name}</option>";
-
-                                                                ?>
-                                                                        <!-- <option value="<?php echo htmlentities($resultt->echo_id); ?>"><?php echo htmlentities($resultt->echo_name); ?></option> -->
-                                                                <?php }
-                                                                } ?>
-                                                            </select>
-                                                            <!-- ---------------sell_who--------------- -->
-                                                            <div class="input-field col m12 s12">
-                                                                <label for="sell_who">ข้อมูลผู้ซื้อ</label>
-                                                                <input id="sell_who" name="sell_who" value="<?php echo htmlentities($result->sell_who); ?>" type="text" autocomplete="off" >
-                                                            </div>
-                                                        </div>
-
 
                                                 <?php }
                                                         } ?>
