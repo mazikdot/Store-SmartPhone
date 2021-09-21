@@ -18,7 +18,7 @@ if (strlen($_SESSION['alogin']) == 0) {
 
         $msg = "อัพเดตรายการขายเรียบร้อยแล้ว";
         if ($query) {
-            echo "<script>alert ('อัพเดตข้อมูลโทรศัพท์ เรียบร้อยแล้ว')</script>";
+            echo "<script>alert ('อัพเดต Note เรียบร้อยแล้ว')</script>";
             echo "<script>window.location.href='note.php'</script>";
         } else {
             echo "<script>alert('ไม่สามารถอัพเดตข้อมูลนี้ได้')</script>";

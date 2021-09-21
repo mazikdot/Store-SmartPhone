@@ -95,14 +95,14 @@ if (strlen($_SESSION['alogin']) == 0) {
         <main class="mn-inner">
             <div class="row">
                 <div class="col s12">
-                    <div class="page-title">แก้ไขรายการขาย</div>
+                    <div class="page-title">แก้ไขรุ่นของโทรศัพท์</div>
                 </div>
                 <div class="col s12 m12 l12">
                     <div class="card">
                         <div class="card-content">
                             <form id="example-form" method="post" name="updatemp">
                                 <div>
-                                    <h3>แก้ไขรายการขาย</h3>
+                                    <h3>แก้ไขรุ่นโทรศัพท์</h3>
                                     <?php if ($error) { ?><div class="errorWrap"><strong>ERROR</strong>:<?php echo htmlentities($error); ?> </div><?php } else if ($msg) { ?><div class="succWrap"><strong>SUCCESS</strong> : <?php echo htmlentities($msg); ?> </div><?php } ?>
                                     <section>
                                         <div class="wizard-content">

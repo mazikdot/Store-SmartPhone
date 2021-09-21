@@ -226,7 +226,7 @@ INNER JOIN status_phone as c ON c.echo_id = a.echo_id;";
                                                         <a href="delete_phone.php?phone_id=<?php echo htmlentities($result->phone_id); ?>" onclick="return confirm('');"" > <i class=" material-icons" title="Inactive">clear</i>
                                                         <?php } else { ?>
 
-                                                            <a href="delete_phone.php?phone_id=<?php echo htmlentities($result->phone_id); ?>" onclick="return confirm('คุณต้องการที่จะลบข้อมูลโทรศัพท์เครื่องนี้ใช่หรือไม่ ?');""><i class=" material-icons" title="Active">delete</i>
+                                                            <a href="delete_phone.php?phone_id=<?php echo htmlentities($result->phone_id); ?>" onclick="return confirm('คุณต้องการที่จะลบสินค้านี้ใช่หรือไม่ ?');""><i class=" material-icons" title="Active">delete</i>
                                                             <?php } ?>
 
                                                             <a href="sell_phone.php?phone_id=<?php echo htmlentities($result->phone_id); ?>"><i class="material-icons">done</i>ขาย</a>

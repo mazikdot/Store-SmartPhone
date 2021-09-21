@@ -72,9 +72,7 @@ echo "<script type='text/javascript'> document.location = 'dashboard.php'; </scr
     
 </head>
 
-<button class="btn btn-primary" type="button"><a href="../index.php">
-        <font color="FFFFFF">กลับสู่หน้าหลัก
-    </a></font> </button>
+
 
 <body class="signin-page">
     <div class="mn-content valign-wrapper">

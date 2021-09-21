@@ -136,7 +136,7 @@ if (strlen($_SESSION['alogin']) == 0) {
                                                 <td><a href="edit-note.php?note_id=<?php echo htmlentities($result->note_id); ?>"><i class="material-icons">mode_edit</i></a>
 
 
-                                                    <a href="delete-note.php?note_id=<?php echo htmlentities($result->note_id); ?>" onclick="return confirm('คุณต้องการที่จะลบข้อมูลโทรศัพท์เครื่องนี้ใช่หรือไม่ ?');""><i class=" material-icons" title="Active">delete</i>
+                                                    <a href="delete-note.php?note_id=<?php echo htmlentities($result->note_id); ?>" onclick="return confirm('คุณต้องการที่จะลบ Note นี้ใช่หรือไม่ ?');""><i class=" material-icons" title="Active">delete</i>
 
                                                 </td>
                                             </tr>
