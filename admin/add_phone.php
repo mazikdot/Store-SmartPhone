@@ -117,7 +117,7 @@ if (strlen($_SESSION['alogin']) == 0) {
 
 
                                                         <div class="input-field col  s12">
-                                                            <label for="data_phone_name">ข้อมูลโทรศัพท์มือถือ</font></label>
+                                                            <label for="data_phone_name">IMEI</font></label>
                                                             <input name="data_phone_name" id="data_phone_name" onBlur="checkAvailabilityEmpid()" type="text" autocomplete="off" required>
                                                             <span id="empid-availability" style="font-size:12px;"></span>
                                                         </div>

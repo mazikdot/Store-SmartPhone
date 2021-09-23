@@ -178,7 +178,7 @@ if (strlen($_SESSION['alogin']) == 0) {
                             <table id="example" class="display responsive-table ">
                                 <thead>
                                     <tr>
-                                        <th>ชื่อโทรศัพท์</th>
+                                        <th>IMEI</th>
                                         <th>ราคาต่อเครื่อง</th>
                                         <th>จำนวนทั้งหมดที่มี</th>
                                         <th>ยี่ห้อ</th>

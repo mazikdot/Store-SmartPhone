@@ -153,7 +153,7 @@ if (strlen($_SESSION['alogin']) == 0) {
                 <table id="example" class="display responsive-table ">
                     <thead>
                         <tr>
-                            <th>โทรศัพท์ที่ขายไป</th>
+                            <th>IMEI</th>
                             <th>จำนวน</th>
                             <th>ราคาต่อเครื่องที่ขายไป</th>
                             <th>ยี่ห้อ</th>
@@ -185,6 +185,8 @@ INNER JOIN status_phone as b ON b.echo_id = a.echo_id;";
                                     <td>
                                     <!-- <a href="edit-list.php?sell_id=<?php echo "{$result->sell_id} {$result->date_add}"; ?>"><i class="material-icons">mode_edit</i></a> -->
                                     <a href="delete-list.php?sell_id=<?php echo htmlentities($result->sell_id); ?>" onclick="return confirm('คุณต้องการที่จะลบข้อมูลโทรศัพท์เครื่องนี้ใช่หรือไม่ ?');""><i class=" material-icons" title="Active">delete</i>
+                                    <a href="print.php?sell_id=<?php echo htmlentities($result->sell_id); ?>"><i class="material-icons">done</i>พิมใบเสร็จ</a>
+                                    
                                     </td>
                                 </tr>
                         <?php $cnt++;
