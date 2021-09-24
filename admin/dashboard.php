@@ -6,30 +6,7 @@ if (strlen($_SESSION['alogin']) == 0) {
     header('location:index.php');
 } else {
     // code for Inactive  employee    
-    if (isset($_GET['inid'])) {
-        $id = $_GET['inid'];
-        $status = 0;
-        $sql = "update tblemployees set Status=:status  WHERE id=:id";
-        $query = $dbh->prepare($sql);
-        $query->bindParam(':id', $id, PDO::PARAM_STR);
-        $query->bindParam(':status', $status, PDO::PARAM_STR);
-        $query->execute();
-        header('location:manageemployee.php');
-    }
 
-
-
-    //code for active employee
-    if (isset($_GET['id'])) {
-        $id = $_GET['id'];
-        $status = 1;
-        $sql = "update tblemployees set Status=:status  WHERE id=:id";
-        $query = $dbh->prepare($sql);
-        $query->bindParam(':id', $id, PDO::PARAM_STR);
-        $query->bindParam(':status', $status, PDO::PARAM_STR);
-        $query->execute();
-        header('location:manageemployee.php');
-    }
 ?>
     <!DOCTYPE html>
     <html lang="en">

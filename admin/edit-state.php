@@ -5,32 +5,27 @@ include('includes/config.php');
 if (strlen($_SESSION['alogin']) == 0) {
     header('location:index.php');
 } else {
-    $phone_id = ($_GET['phone_id']);
+    $sell_id = $_GET['sell_id'];
     if (isset($_POST['update'])) {
-
-        $phone_name = $_POST['phone_name'];
-        $phone_price = $_POST['phone_price'];
-        $phone_amount = $_POST['phone_amount'];
-        $echo_id = $_POST['echo_id'];
-        $status_id = $_POST['status_id'];
-        $sql = "update tbphone set phone_name=:phone_name,phone_price=:phone_price,phone_amount=:phone_amount,echo_id=:echo_id,status_id=:status_id  where phone_id=:phone_id";
+      
+        $list_id = $_POST['list_id'];
+        // $sql = "UPDATE sell_phone SET list_id =: list_id WHERE sell_id =: sell_id;";
+        $sql = "update sell_phone set list_id=:list_id  where sell_id=:sell_id";
         $query = $dbh->prepare($sql);
-        $query->bindParam(':phone_name', $phone_name, PDO::PARAM_STR);
-        $query->bindParam(':phone_price', $phone_price, PDO::PARAM_STR);
-        $query->bindParam(':phone_amount', $phone_amount, PDO::PARAM_STR);
-        $query->bindParam(':echo_id', $echo_id, PDO::PARAM_STR);
-        $query->bindParam(':status_id', $status_id, PDO::PARAM_STR);
-        $query->bindParam(':phone_id', $phone_id, PDO::PARAM_STR);
-
+      
+        $query->bindParam(':list_id', $list_id, PDO::PARAM_STR);
+        $query->bindParam(':sell_id', $sell_id, PDO::PARAM_STR);
         $query->execute();
-
-        $msg = "อัพเดตข้อมูลโทรศัพท์เรียบร้อยแล้ว";
+        if (!$query->execute()) {
+            print_r($query->errorInfo());
+        }
+        // $msg = "อัพเดตข้อมูลโทรศัพท์เรียบร้อยแล้ว";
         if ($query) {
-            echo "<script>alert ('อัพเดตข้อมูลโทรศัพท์ เรียบร้อยแล้ว')</script>";
-            echo "<script>window.location.href='dashboard.php'</script>";
+            // echo "<script>alert ('เลือกรายการนี้เรียบร้อยแล้ว')</script>";
+            echo "<script>window.location.href='list-sell.php'</script>";
         } else {
             echo "<script>alert('ไม่สามารถอัพเดตข้อมูลนี้ได้')</script>";
-            echo "<script>window.location.href='dashboard.php'</script>";
+            echo "<script>window.location.href='list-sell.php'</script>";
         }
     }
 
@@ -103,14 +98,14 @@ if (strlen($_SESSION['alogin']) == 0) {
         <main class="mn-inner">
             <div class="row">
                 <div class="col s12">
-                    <div class="page-title">แก้ไขข้อมูลโทรศัพท์</div>
+                    <div class="page-title">เลือกรายการพิมพ์</div>
                 </div>
                 <div class="col s12 m12 l12">
                     <div class="card">
                         <div class="card-content">
                             <form id="example-form" method="post" name="updatemp">
                                 <div>
-                                    <h3>แก้ไขข้อมูลโทรศัพท์</h3>
+                                    <h3>เลือกรายการ</h3>
                                     <?php if ($error) { ?><div class="errorWrap"><strong>ERROR</strong>:<?php echo htmlentities($error); ?> </div><?php } else if ($msg) { ?><div class="succWrap"><strong>SUCCESS</strong> : <?php echo htmlentities($msg); ?> </div><?php } ?>
                                     <section>
                                         <div class="wizard-content">
@@ -118,33 +113,16 @@ if (strlen($_SESSION['alogin']) == 0) {
                                                 <div class="col m6">
                                                     <div class="row">
                                                         <?php
-                                                        $eid = intval($_GET['phone_id']);
-                                                        $sql = "SELECT * from  tbphone where phone_id=:phone_id";
+                                                        $sell_id = intval($_GET['sell_id']);
+                                                        $sql = "SELECT * from  sell_phone where sell_id=:sell_id";
                                                         $query = $dbh->prepare($sql);
-                                                        $query->bindParam(':phone_id', $eid, PDO::PARAM_STR);
+                                                        $query->bindParam(':sell_id', $sell_id, PDO::PARAM_STR);
                                                         $query->execute();
                                                         $results = $query->fetchAll(PDO::FETCH_OBJ);
                                                         $cnt = 1;
                                                         if ($query->rowCount() > 0) {
                                                             foreach ($results as $result) {               ?>
-                                                                <div class="input-field col  s12">
-                                                                    <label for="phone_name">โทรศัพท์มือถือ</label>
-                                                                    <input name="phone_name" id="phone_name" value="<?php echo htmlentities($result->phone_name); ?>" type="text" autocomplete="off" required>
-                                                                    <span id="empid-availability" style="font-size:12px;"></span>
-                                                                </div>
-
-
-                                                                <div class="input-field col m6 s12">
-                                                                    <label for="phone_price">ราคา</label>
-                                                                    <input id="phone_price" name="phone_price" value="<?php echo htmlentities($result->phone_price); ?>" type="text" required>
-                                                                </div>
-
-                                                                <div class="input-field col m6 s12">
-                                                                    <label for="phone_amount">จำนวน</label>
-                                                                    <input id="phone_amount" name="phone_amount" value="<?php echo htmlentities($result->phone_amount); ?>" type="text" autocomplete="off" required>
-                                                                </div>
-
-
+                                                        
                                                     </div>
                                                 </div>
 
@@ -153,34 +131,18 @@ if (strlen($_SESSION['alogin']) == 0) {
 
 
                                                         <div class="input-field col m6 s12">
-                                                            <select name="echo_id" autocomplete="off">
-                                                                <?php $sql = "SELECT * from status_phone";
+                                                            <select name="list_id" autocomplete="off">
+                                                                <?php $sql = "SELECT * from status_list";
                                                                 $query = $dbh->prepare($sql);
                                                                 $query->execute();
                                                                 $results = $query->fetchAll(PDO::FETCH_OBJ);
                                                                 if ($query->rowCount() > 0) {
                                                                     foreach ($results as $resultt) {
-                                                                        $selected = ($resultt->echo_id == $result->echo_id) ? "selected" : "";
-                                                                        echo "<option value = '{$resultt->echo_id}' {$selected}>{$resultt->echo_name}</option>";
+                                                                        $selected = ($resultt->list_id == $result->list_id) ? "selected" : "";
+                                                                        echo "<option value = '{$resultt->list_id}' {$selected}>{$resultt->list_name}</option>";
 
                                                                 ?>
-                                                                     
-                                                                <?php }
-                                                                } ?>
-                                                            </select>
-                                                            <!-- ---------------status_id--------------- -->
-                                                            <select name="status_id" autocomplete="off">
-                                                                <?php
-                                                                // select_status_id
-                                                                $sql = "SELECT * from phone_status";
-                                                                $query = $dbh->prepare($sql);
-                                                                $query->execute();
-                                                                $results = $query->fetchAll(PDO::FETCH_OBJ);
-                                                                if ($query->rowCount() > 0) {
-                                                                    foreach ($results as $resultt) {
-                                                                        $selected = ($resultt->status_id == $result->status_id) ? "selected" : "";
-                                                                        echo "<option value = '{$resultt->status_id}' {$selected}>{$resultt->status_name}</option>";
-                                                                ?>
+                                                                      
                                                                 <?php }
                                                                 } ?>
                                                             </select>

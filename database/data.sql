@@ -76,6 +76,12 @@ CREATE TABLE IF NOT EXISTS tblleaves(
   `empid` int(11) DEFAULT NULL
 )CHARACTER SET utf8 COLLATE utf8_general_ci;
 
+CREATE TABLE status_list(
+  
+  list_id int(4) PRIMARY KEY AUTO_INCREMENT NOT NULL,
+  list_name varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci 
+
+)CHARACTER SET utf8 COLLATE utf8_general_ci;
 
 CREATE TABLE IF NOT EXISTS status_phone(
 	echo_id int(4) PRIMARY KEY AUTO_INCREMENT NOT NULL,
@@ -126,6 +132,7 @@ id_total_phone2 int(10) PRIMARY KEY AUTO_INCREMENT NOT NULL,
 total_phone_name2 int(10) NOT NULL,
 total_timp2 timestamp NOT NULL
 )CHARACTER SET utf8 COLLATE utf8_general_ci;
+
 CREATE TABLE sell_phone  (
 	sell_id int(10) PRIMARY KEY AUTO_INCREMENT NOT NULL,
     sell_name varchar(10) CHARACTER SET utf8 COLLATE utf8_general_ci,
@@ -173,6 +180,8 @@ CREATE TABLE notes(
   note_name varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
   note_timp timestamp NOT NULL
 )CHARACTER SET utf8 COLLATE utf8_general_ci;
+
+
 ALTER TABLE `admin`
   ADD PRIMARY KEY (`id`);
 

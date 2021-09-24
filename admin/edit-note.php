@@ -123,10 +123,7 @@ if (strlen($_SESSION['alogin']) == 0) {
                                                                     <label for="note_name">แก้ไขรุ่นโทรศัพท์มือถือ</label>
                                                                     <input name="note_name" id="note_name" value="<?php echo htmlentities($result->note_name); ?>" type="text" autocomplete="off" required>
                                                                     <span id="empid-availability" style="font-size:12px;"></span>
-                                                                </div>
-
-
-
+                                                            </div>
                                                     </div>
                                                 </div>
 

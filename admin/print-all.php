@@ -1,45 +1,29 @@
 <?php
 // include('includes/config.php');
 include('config.php');
-if (isset($_GET['sell_id'])) {
-    $sell_id = $_GET['sell_id'];
-    // header('location:manageemployee.php');
-    // $sql = "SELECT * FROM sell_phone WHERE sell_id =: sell_id";
-    // $query = $dbh->prepare($sql);
-    // $query->bindParam(':sell_id', $sell_id, PDO::PARAM_STR);
-    // $query->execute();
-    // $results = $query->fetchAll(PDO::FETCH_OBJ);
-
-    // echo "{$sell_id}";
-    // $sql = "SELECT * FROM sell_phone WHERE sell_id =: sell_id";
-    // $query = $dbh->prepare($sql);
-    // $query->bindParam(':sell_id', $sell_id, PDO::PARAM_STR);
-    // $query->execute();
-    // $results = $query->fetchAll(PDO::FETCH_ASSOC);
-    // foreach ($results as $result){
-    //     echo "{$result['sell_name']}";
-    // }
-
-
-
-
-
-        // foreach ($results as $result) {
-        //     echo "{$result->sell_name}";
-        //     echo "test";
-        // }
     $sql2 = "SELECT (sum_teacher) as 'total' FROM (
-        SELECT sum(sell_amount*sell_price) as sum_teacher FROM sell_phone  WHERE sell_id = {$sell_id}) sum_tea;";
+        SELECT sum(sell_amount*sell_price) as sum_teacher FROM sell_phone  WHERE list_id = 2) sum_tea;";
 
 
-    $sql = "SELECT * FROM sell_phone WHERE sell_id = {$sell_id};";
+    $sql = "SELECT * FROM sell_phone WHERE list_id = 2;";
     $res = $conn->query($sql);
+    $res4 = $conn->query($sql);
     $res2 = $conn->query($sql2);
-    $row = $res->fetch_assoc();
-    $row2 =$res2->fetch_assoc();
-
-
-}
+    $num = $res->num_rows;
+    if($num == 0){
+        echo "<script>alert ('โปรดเลือกรายการก่อนการพิมพ์')</script>";
+        echo "<script>window.location.href='list-sell.php'</script>";
+    }
+    // $row = $res->fetch_assoc();
+    // $row2 =$res2->fetch_assoc();
+   
+    while($rowss = mysqli_fetch_assoc($res)){
+        $row1 = $rowss['sell_date'];
+        $row_who = $rowss['sell_who'];
+    }
+    while($sel = mysqli_fetch_assoc($res2)){
+        $total = $sel['total'];
+    }  
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -78,6 +62,7 @@ if (isset($_GET['sell_id'])) {
 </head>
 
 <body>
+    
     <div class="center">
         <button id="print" onclick="window.print()">Print</button>
     </div>
@@ -92,38 +77,56 @@ if (isset($_GET['sell_id'])) {
             <h5>โทร 061-6989164 / 082-4592252</h5>
             <br><br><br>
         </header>
+     
         <section>
+     
             <div class="date">
-                <p style="text-align: left;">&emsp;&emsp;&emsp;&emsp; วันที่ <?php echo $row['sell_date']; ?> <span id="datetime"></span></p>
+                <p style="text-align: left;">&emsp;&emsp;&emsp;&emsp; วันที่ <?php echo $row1 ?> <span id="datetime"></span></p>
             </div>
             <br>
             <div>
                 <p  style="text-align: left;">
-                &emsp;&emsp;&emsp;&emsp; ชื่อลูกค้า  <?php echo $row['sell_who']; ?> </p>
+                &emsp;&emsp;&emsp;&emsp; ชื่อลูกค้า  <?php echo $row_who ?> </p>
                 <br>
             </div>
             <table style="width:85%">
                 <thead>
+                   
                     <tr>
                         <th>ลำดับ</th>
                         <th>รายการ</th>
                         <th>จำนวน</th>
                         <th>เครื่องละ</th>
-                        <th>ราคารวม</th>
+                      
                     </tr>
                 </thead>
-
+      
                 <tbody>
+                <?php
+                $cn = 1;
+                        while($rowtable = mysqli_fetch_assoc($res4)){
+                    ?>
                     <tr>
                         <!-- <td></td> -->
-                        <td  style = "text-align: center;" >1</td>
-                        <td style = "text-align: center;" class="price"><?php echo $row['sell_name']; ?></td>
-                        <td  style = "text-align: center;" ><?php echo $row['sell_amount']; ?></td>
-                        <td  style = "text-align: center;"  class="price"><?php echo $row['sell_price']; ?></td>
-                        <td  style = "text-align: center;"  ><?php echo $row2['total']; ?></td>
+                        <td  style = "text-align: center;" ><?php echo "{$cn}"; ?></td>
+                        <td style = "text-align: center;" class="price"><?php echo $rowtable['sell_name']; ?></td>
+                        <td  style = "text-align: center;" ><?php echo $rowtable['sell_amount']; ?></td>
+                        <td  style = "text-align: center;"  class="price"><?php echo $rowtable['sell_price'] ?></td>
+                        
+                    </tr>
+                    <?php
+                    $cn++;
+                        }
+                    ?>
+                    <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td  style = "text-align: center;"  >รวมเป็นเงิน : <?php echo $total ?></td>
                     </tr>
                 </tbody>
             </table>
+      
             <pre>
 
          ลงชื่อ ...............................................ผู้รับสินค้า                                                  ลงชื่อ ...............................................ผู้รับเงิน

@@ -5,6 +5,17 @@ include('includes/config.php');
 if (strlen($_SESSION['alogin']) == 0) {
     header('location:index.php');
 }
+// $sql = "SELECT * FROM sell_phone WHERE list_id = 2;";
+// $query = $dbh->prepare($sql);
+// $query->execute();
+// $results = $query->fetchAll(PDO::FETCH_ASSOC);
+// foreach ($results as $result){
+//     $id = $list_id['list_id'];
+//     if($id == 1){
+//         echo "<script>alert ('ไม่สามารถพิมพ์หลายรายการได้เนื่องจากยังไม่ได้เลือก')</script>";
+//         echo "<script>window.location.href='list-sell.php'</script>";
+//     }
+//}
 
 ?>
 <!DOCTYPE html>
@@ -147,7 +158,8 @@ if (strlen($_SESSION['alogin']) == 0) {
                 <div class="card">
                     <div class="card-content">
                         <span class="card-title">Smart Phone</span>
-                        <span class="card-title" style="color:#dd3d36;"><a href="delete-all-list.php" onclick="return confirm('คุณต้องการที่จะลบข้อมูลโทรศัพท์เครื่องนี้ใช่หรือไม่ ?');"">ล้างรายการขายทั้งหมด</a></span>
+                        <span style=" color:darkorange; text-align: right;" class="card-title"><a style=" color:darkorange;" href="print-all.php">พิมพ์รายการที่เลือก</a> <a style=" color:brown" href="clear-status-list.php"> <b style="color:black">::::::::::</b> เคลียร์รายการที่เลือก</a></span>
+                        <span class="card-title" style="color:#dd3d36;"><a style="color:#dd3d36;" href="delete-all-list.php" onclick="return confirm('คุณต้องการที่จะลบข้อมูลโทรศัพท์เครื่องนี้ใช่หรือไม่ ?');"">ล้างรายการขายทั้งหมด</a></span>
                             <?php if ($msg) { ?><div class=" succWrap"><strong>SUCCESS</strong> : <?php echo htmlentities($msg); ?>
                     </div><?php } ?>
                 <table id="example" class="display responsive-table ">
@@ -160,12 +172,15 @@ if (strlen($_SESSION['alogin']) == 0) {
                             <th>วันที่ขาย</th>
                             <th>ข้อมูลผู้ซื้อ</th>
                             <th>Action</th>
+                            <th>พิมใบเสร็จหลายรายการ</th>
                         </tr>
                     </thead>
 
                     <tbody>
-                        <?php $sql = "SELECT a.sell_id as sell_id,a.sell_name as sell_name,a.sell_amount as sell_amount,a.sell_price as sell_price, a.sell_date as sell_date ,a.sell_who as sell_who, b.echo_name as echo_name FROM sell_phone as a
-INNER JOIN status_phone as b ON b.echo_id = a.echo_id;";
+                        <?php $sql = "SELECT a.list_id as list_id,c.list_name as list_name ,a.sell_id as sell_id,a.sell_name as sell_name,a.sell_amount as sell_amount,a.sell_price as sell_price, a.sell_date as sell_date ,a.sell_who as sell_who, b.echo_name as echo_name FROM sell_phone as a
+INNER JOIN status_phone as b ON b.echo_id = a.echo_id
+INNER JOIN status_list as c ON a.list_id = c.list_id;
+";
                         $query = $dbh->prepare($sql);
                         $query->execute();
                         $results = $query->fetchAll(PDO::FETCH_OBJ);
@@ -179,15 +194,12 @@ INNER JOIN status_phone as b ON b.echo_id = a.echo_id;";
                                     <td><?php echo htmlentities($result->echo_name); ?></td>
                                     <td><?php echo htmlentities($result->sell_date); ?></td>
                                     <td><?php echo htmlentities($result->sell_who); ?></td>
-
-                                    </td>
-
                                     <td>
-                                    <!-- <a href="edit-list.php?sell_id=<?php echo "{$result->sell_id} {$result->date_add}"; ?>"><i class="material-icons">mode_edit</i></a> -->
-                                    <a href="delete-list.php?sell_id=<?php echo htmlentities($result->sell_id); ?>" onclick="return confirm('คุณต้องการที่จะลบข้อมูลโทรศัพท์เครื่องนี้ใช่หรือไม่ ?');""><i class=" material-icons" title="Active">delete</i>
-                                    <a href="print.php?sell_id=<?php echo htmlentities($result->sell_id); ?>"><i class="material-icons">done</i>พิมใบเสร็จ</a>
-                                    
+                                        <!-- <a href="edit-list.php?sell_id=<?php echo "{$result->sell_id} {$result->date_add}"; ?>"><i class="material-icons">mode_edit</i></a> -->
+                                        <a href="delete-list.php?sell_id=<?php echo htmlentities($result->sell_id); ?>" onclick="return confirm('คุณต้องการที่จะลบข้อมูลโทรศัพท์เครื่องนี้ใช่หรือไม่ ?');""><i class=" material-icons" title="Active">delete</i>
+                                            <a style="font-size: 10px;" href="print.php?sell_id=<?php echo htmlentities($result->sell_id); ?>"><i class="material-icons">done</i>พิมพ์ใบเสร็จ</a>
                                     </td>
+                                    <td> <a style="font-size: 10px;" href="edit-state.php?sell_id=<?php echo htmlentities($result->sell_id); ?>"><i class="material-icons">done</i><?php echo $result->list_name ?></a> </td>
                                 </tr>
                         <?php $cnt++;
                             }
